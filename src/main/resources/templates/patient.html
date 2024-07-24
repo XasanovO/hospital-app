@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<a href="/">
+    <h1 class="text-white bg-dark text-center border-2">Home</h1>
+</a>
+<div th:each="admission : ${admissions}" class="row">
+    <hr>
+    <div class="col-5">
+        <div class="row">
+            <h4 th:text="${admission.subscribeDate()}"></h4>
+        </div>
+        <div class="row">
+            <button class="btn btn-success"
+                    th:if="${admission.status == T(org.example.hospitalapp.entity.enums.AdmissionStatus).IN_PROGRESS}"
+                    th:text="${'Kiring ...'}" disabled>
+            </button>
+            <button th:if="${admission.status == T(org.example.hospitalapp.entity.enums.AdmissionStatus).ON_TIME}"
+                    class="btn btn-success" disabled>
+                Vaqtida Kelgan
+            </button>
+            <button th:if="${admission.status == T(org.example.hospitalapp.entity.enums.AdmissionStatus).NOT_ON_TIME}"
+                    class="btn btn-danger" disabled>
+                Vaqtida Kelmagan
+            </button>
+            <button th:if="${admission.status == T(org.example.hospitalapp.entity.enums.AdmissionStatus).WAITING}"
+                    class="btn btn-info" disabled th:text="${'navbatda : '+queueCount+' kishi'}">
+            </button>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="row">
+            <h4 th:text="${admission.doctor() + ' ' + admission.speciality()}"></h4>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h6 th:text="${admission.sumOfProcedures()}"></h6>
+            </div>
+            <div class="col">
+                <a th:href="${'/admission/info?admissionId='+admission.id}">
+                    <button class="btn btn-dark">Info</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <hr>
+    </div>
+</div>
+</body>
+</html>

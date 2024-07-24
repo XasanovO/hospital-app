@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>editSpeciality</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<h1 class="text-white bg-dark text-center">Edit Speciality</h1>
+<form action="/speciality/edit" method="post">
+    <input type="text" th:value="${speciality.name}" name="name">
+    <input type="hidden" name="id" th:value="${speciality.id}">
+    <button class="btn btn-dark">Edit</button>
+</form>
+</body>
+</html>

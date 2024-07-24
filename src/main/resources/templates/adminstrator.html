@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head>
+    <meta charset="UTF-8">
+    <title>Adminstrator</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<a href="/">
+    <h1 class="text-white bg-dark text-center border-2">Home</h1>
+</a>
+<div class="row">
+    <div class="col-3 bg-dark text-white" style="height: 100vh">
+        <div class="btn-group">
+            <form action="/adminstrator" method="get" class="form-inline">
+                <input th:value="${search}" placeholder="fullPhone" class="form-control mr-2" type="text" name="search"
+                       required>
+                <button type="submit" class="btn btn-info mr-2">Search</button>
+                <a href="/adminstrator" class="btn btn-info">All</a>
+            </form>
+        </div>
+        <ul th:each="patient : ${patients}" class="list-group">
+            <a th:href="${'/adminstrator?patientId='+patient.id}">
+                <li class="list-group-item" th:text="${patient.user}"></li>
+            </a>
+        </ul>
+        <a href="/patient/add">
+            <button class="btn btn-info" th:if="${patients.isEmpty()}">Add Patient</button>
+        </a>
+    </div>
+    <div th:if="${patient}" class="col-9">
+        <h1 class="text-center text-white bg-dark" th:text="${patient.user}"></h1>
+        <div class="row">
+            <p th:if="${errorMessage}" th:value="${errorMessage}" class="text-danger"></p>
+            <form action="/admission/subscribe" method="post" class="form-inline">
+                <input type="hidden" name="patientId" th:value="${patient.id}">
+                <div class="form-group col-4">
+                    <select class="form-control" name="doctorId" required>
+                        <option th:each="doctor : ${doctors}"
+                                th:value="${doctor.id}"
+                                th:text="${doctor.user.fullName() +' '+ doctor.speciality.name}">
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-3">
+                    <input type="datetime-local" name="dateTime" class="form-control" required>
+                </div>
+                <div class="form-group col-3">
+                    <input type="text" placeholder="description" name="description" class="form-control" required>
+                </div>
+                <div class="form-group col-3 ">
+                    <button type="submit" class="btn btn-dark">Subscribe</button>
+                </div>
+            </form>
+        </div>
+        <div th:each="admission : ${admissions}" class="row">
+            <hr>
+            <div class="col-5">
+                <div class="row">
+                    <h4 th:text="${admission.subscribeDate()}"></h4>
+                </div>
+                <div class="row">
+                    <form th:if="${admission.status() == T(org.example.hospitalapp.entity.enums.AdmissionStatus).REGISTRATION}"
+                          action="/admission/enter" method="post">
+                        <input type="hidden" name="admissionId" th:value="${admission.id()}">
+                        <input type="hidden" name="patientId" th:value="${patient.id}">
+                        <button type="submit" class="btn btn-dark">Kritish</button>
+                    </form>
+                    <button th:if="${admission.status() == T(org.example.hospitalapp.entity.enums.AdmissionStatus).ON_TIME}"
+                            class="btn btn-success" disabled>
+                        Vaqtida Kelgan
+                    </button>
+                    <button th:if="${admission.status() == T(org.example.hospitalapp.entity.enums.AdmissionStatus).NOT_ON_TIME}"
+                            class="btn btn-danger" disabled>
+                        Vaqtida Kelmagan
+                    </button>
+                    <button th:if="${admission.status() == T(org.example.hospitalapp.entity.enums.AdmissionStatus).WAITING}"
+                            class="btn btn-info" disabled>
+                        Kutish Jaroyonida
+                    </button>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <h4 th:text="${admission.doctor() + ' ' + admission.speciality()}"></h4>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <h6 th:text="${admission.sumOfProcedures()}"></h6>
+                    </div>
+                    <div class="col">
+                        <a th:href="${'/admission/info?admissionId='+admission.id()}">
+                            <button class="btn btn-dark">Info</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

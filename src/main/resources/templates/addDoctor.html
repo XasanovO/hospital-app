@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <h3 th:text="${doctor != null ? 'Edit Doctor':'Add New Doctor'}"></h3>
+        </div>
+        <div class="card-body">
+            <form th:action="${doctor != null ? '/doctor/edit':'/doctor/add'}" method="post">
+                <input th:if="${doctor}" th:value="${doctor.id}" type="hidden" name="id">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input name="firstName" th:value="${doctor != null ? doctor.user.firstName:''}" type="text"
+                           class="form-control"
+                           id="firstName" placeholder="Enter first name" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input name="lastName" th:value="${doctor != null ? doctor.user.lastName:''}" type="text"
+                           class="form-control"
+                           id="lastName" placeholder="Enter last name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input name="phone" th:value="${doctor != null ? doctor.user.phone:''}" type="text"
+                           class="form-control"
+                           id="phone" placeholder="Enter phone number" required>
+                </div>
+                <div class="form-group">
+                    <label for="speciality">Speciality</label>
+                    <select name="specialtyId" class="form-control" id="speciality" required>
+                        <option th:each="speciality : ${specialities}"
+                                th:value="${speciality.id}"
+                                th:text="${speciality.name}"
+                        ></option>
+                        <option th:if="${doctor}" th:text="${doctor.speciality.name}"
+                                th:value="${doctor.speciality.id}" selected></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Room">Room</label>
+                    <select name="roomId" class="form-control" id="Room" required>
+                        <option th:each="room : ${rooms}"
+                                th:value="${room.id}"
+                                th:text="${room}"
+                        ></option>
+                        <option th:if="${doctor}" th:value="${doctor.room.id}" th:text="${doctor.room}" selected></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

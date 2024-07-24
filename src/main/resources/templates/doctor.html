@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<a href="/">
+    <h1 class="text-white bg-dark text-center border-2">Home</h1>
+</a>
+<div class="row">
+    <div class="col-3 bg-dark text-white" style="height: 100vh">
+        <ul class="list-group">
+            <li class="list-group-item text-dark" th:if="${admissions.isEmpty()}">Xozirda kasallar yoq !</li>
+            <li th:each="admission : ${admissions}"
+                th:classappend="${currentAdmission != null and currentAdmission.id == admission.id ? ' bg-dark text-white' : ''}"
+                class="list-group-item">
+                <a th:href="${'/doctor?admissionId='+admission.id}">
+                    <span th:text="${currentAdmission != null and currentAdmission.id == admission.id ? admission.patient.user.fullName() : admission.patient.user.fullName() + ' waiting...'}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div th:if="${currentAdmission}" class="col-9">
+        <h1 class="text-white text-center bg-dark" th:text="${currentAdmission.patient.user}"></h1>
+
+        <div class="row justify-content-center mt-5">
+            <form action="/procedure/add" method="post" class="col-10 col-md-8 col-lg-6">
+                <input type="hidden" name="admissionId" th:value="${currentAdmission.id}">
+                <div class="form-group">
+                    <input type="text" name="title" placeholder="Title" class="form-control mb-3" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="description" placeholder="Description" class="form-control mb-3" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" name="price" placeholder="Price" class="form-control mb-4" required>
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-dark">Add Procedure</button>
+                </div>
+            </form>
+        </div>
+
+        <div th:each="procedure : ${currentAdmission.procedures}" class="row mb-4 border-bottom pb-3">
+            <div class="col-md-8">
+                <h4 class="font-weight-bold">Title: <span th:text="${procedure.title}"></span></h4>
+                <p class="text-muted">Description: <span th:text="${procedure.description}"></span></p>
+            </div>
+            <div class="col-md-4 text-md-right">
+                <h3 class="text-primary" th:text="${'Price: $' + procedure.price}"></h3>
+            </div>
+        </div>
+        <form action="/admission/complete" method="post">
+            <input type="hidden" name="admissionId" th:value="${currentAdmission.id}">
+            <button class="btn btn-dark">Finish</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

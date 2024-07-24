@@ -1,0 +1,9 @@
+package org.example.hospitalapp.repo;
+
+import org.example.hospitalapp.entity.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+    Role findByRole(String rolePatient);
+
+}

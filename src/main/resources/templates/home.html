@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        .hero {
+            background: url('https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            background-position: center 20%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<header class="bg-dark text-white py-3">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="logo">
+            <h1 class="h3 mb-0">Kasalxona</h1>
+        </div>
+        <nav>
+            <ul class="nav">
+                <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/cabinet" class="nav-link text-white">Mening
+                    Kabinetim</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/logout" class="nav-link text-white">Chiqish</a>
+                </li>
+                <li sec:authorize="!isAuthenticated()" class="nav-item"><a href="/auth/login"
+                                                                           class="nav-link text-white">Kirish</a></li>
+                <li sec:authorize="!isAuthenticated()" class="nav-item"><a href="/auth/register"
+                                                                           class="nav-link text-white">Ro'yxatdan
+                    o'tish</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main>
+    <section class="hero d-flex align-items-center justify-content-center text-center text-white">
+        <div class="container">
+            <h2 class="display-4">Sizning salomatligingiz biz uchun muhim</h2>
+            <p class="lead">Eng yaxshi tibbiy xizmatlar va davolanish imkoniyatlari</p>
+        </div>
+    </section>
+</main>
+<footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+        <p class="mb-0">&copy; 2024 Kasalxona. Barcha huquqlar himoyalangan.</p>
+    </div>
+</footer>
+</body>
+</html>

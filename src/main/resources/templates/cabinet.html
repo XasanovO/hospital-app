@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head>
+    <meta charset="UTF-8">
+    <title>Cabinet</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<a href="/">
+    <h1 class="text-white bg-dark text-center border-2">Home</h1>
+</a>
+<div class="row">
+    <div class="col-3 bg-dark text-white" style="height: 100vh">
+        <ul class="list-group">
+            <a sec:authorize="hasRole('SUPPER_ADMIN')" href="/supperAdmin">
+                <li class="list-group-item">Supper Admin</li>
+            </a>
+            <a sec:authorize="hasRole('PATIENT')" href="/patient">
+                <li class="list-group-item">Patient</li>
+            </a>
+            <a sec:authorize="hasRole('DOCTOR')" href="/doctor">
+                <li class="list-group-item">Doctor</li>
+            </a>
+            <a sec:authorize="hasRole('ADMIN')" href="/adminstrator">
+                <li class="list-group-item">Adminstrator</li>
+            </a>
+        </ul>
+    </div>
+    <div th:if="${supperAdmin}" class="col-9">
+        <div class="row">
+            <div class="col">
+                <a href="/supperAdmin/doctors" class="btn btn-dark btn-block text-left">Doctors</a>
+            </div>
+            <div class="col">
+                <a href="/supperAdmin/patients" class="btn btn-dark btn-block text-left">Patients</a>
+            </div>
+            <div class="col">
+                <a href="/supperAdmin/specialities" class="btn btn-dark btn-block text-left">Specialities</a>
+            </div>
+        </div>
+        <div class="col">
+            <div th:if="${doctors != null}">
+                <h1 class="bg-dark text-white text-center">Doctors</h1>
+                <a href="/doctor/add">
+                    <button class="btn btn-dark">Add Doctor</button>
+                </a>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Room</th>
+                        <th>Speciality</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="doctor : ${doctors}">
+                        <td th:text="${doctor.id}"></td>
+                        <td th:text="${doctor.user.firstName}"></td>
+                        <td th:text="${doctor.user.lastName}"></td>
+                        <td th:text="${doctor.room}"></td>
+                        <td th:text="${doctor.speciality}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <form action="/doctor/delete" method="post">
+                                    <input type="hidden" name="id" th:value="${doctor.id}">
+                                    <button class="btn btn-dark">Delete</button>
+                                </form>
+                                <form action="/doctor/edit" method="get">
+                                    <input type="hidden" name="id" th:value="${doctor.id}">
+                                    <button class="btn btn-dark">Edit</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${patients != null}">
+                <h1 class="bg-dark text-white text-center">Patients</h1>
+                <a href="/patient/add">
+                    <button class="btn btn-dark">Add Patient</button>
+                </a>
+                <table th:if="${!patients.isEmpty()}" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="patient : ${patients}">
+                        <td th:text="${patient.id}"></td>
+                        <td th:text="${patient.user.firstName}"></td>
+                        <td th:text="${patient.user.lastName}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <form action="/patient/delete" method="post">
+                                    <input type="hidden" name="id" th:value="${patient.id}">
+                                    <button class="btn btn-dark">Delete</button>
+                                </form>
+                                <form action="/patient/edit" method="get">
+                                    <input type="hidden" name="id" th:value="${patient.id}">
+                                    <button class="btn btn-dark">Edit</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${specialities != null}">
+                <h1 class="text-white text-center bg-dark">Specialities</h1>
+                <form action="/speciality/add" method="post">
+                    <input class="form-control" type="text" name="name" placeholder="name" required>
+                    <button class="btn btn-dark">Add Speciality</button>
+                </form>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="speciality : ${specialities}">
+                        <td th:text="${speciality.id}"></td>
+                        <td th:text="${speciality.name}"></td>
+                        <td>
+                            <div class="btn-group">
+                                <div class="btn-group">
+                                    <form action="/speciality/delete" method="post">
+                                        <input type="hidden" name="id" th:value="${speciality.id}">
+                                        <button class="btn btn-dark">Delete</button>
+                                    </form>
+                                    <form action="/speciality/edit" method="get">
+                                        <input type="hidden" name="id" th:value="${speciality.id}">
+                                        <button class="btn btn-dark">Edit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

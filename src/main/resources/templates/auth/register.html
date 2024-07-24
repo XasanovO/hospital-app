@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <title>Register</title>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0">Ro'yxatdan o'tish</h4>
+                </div>
+                <div class="card-body">
+                    <form action="/auth/register" method="post">
+                        <div class="form-group">
+                            <label for="firstname">Ism</label>
+                            <input type="text" id="firstname" name="firstname" class="form-control"
+                                   placeholder="Ismingizni kiriting">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Familiya</label>
+                            <input type="text" id="lastname" name="lastname" class="form-control"
+                                   placeholder="Familiyangizni kiriting">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon raqami</label>
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                   placeholder="Telefon raqamini kiriting">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Parol</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                   placeholder="Parolni kiriting">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm_password">Parolni tasdiqlang</label>
+                            <input type="password" id="confirm_password" name="confirm_password" class="form-control"
+                                   placeholder="Parolni qayta kiriting">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Ro'yxatdan o'tish</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

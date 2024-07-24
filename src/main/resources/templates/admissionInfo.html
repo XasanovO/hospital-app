@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AdmissionInfo</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+<body>
+<h1 class="text-center text-white bg-dark">Admission Procedures</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>price</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="procedure : ${procedures}">
+                <td th:text="${procedure.id}"></td>
+                <td th:text="${procedure.title}"></td>
+                <td th:text="${procedure.description}"></td>
+                <td th:text="${procedure.price}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
